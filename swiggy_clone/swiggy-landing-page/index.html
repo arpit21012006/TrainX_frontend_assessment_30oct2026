@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A responsive Swiggy-inspired food, grocery and dining landing page.">
+  <title>Swiggy — Food, Groceries & More</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #ff6d24;
+      --orange-dark: #e95b12;
+      --ink: #202124;
+      --muted: #686b70;
+      --line: #e9e9e9;
+      --cream: #fff8f3;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "DM Sans",
+        Arial, sans-serif;
+      background: #fff;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--max),
+          calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: relative;
+      z-index: 5;
+      background: #fff;
+    }
+
+    .navbar {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      gap: 38px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--orange);
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1.4px;
+    }
+
+    .brand-mark {
+      width: 35px;
+      height: 35px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover,
+    .footer a:hover {
+      color: var(--orange);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .app-link,
+    .sign-in {
+      padding: 11px 17px;
+      border: 1px solid #dedede;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .app-link span {
+      margin-left: 9px;
+      font-size: 16px;
+    }
+
+    .sign-in {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+      padding-inline: 23px;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: transparent;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 23px;
+      height: 2px;
+      margin: 5px;
+      background: #222;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 48px 0 45px;
+      background: linear-gradient(125deg, #ff762b, #f65d12 65%, #ed4e0a);
+      color: white;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 13px;
+      color: #ffe0ce;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.3px;
+    }
+
+    .hero h1 {
+      margin: 0 auto 26px;
+      max-width: 720px;
+      font-size: clamp(29px, 4vw, 43px);
+      line-height: 1.19;
+      letter-spacing: -1.5px;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: #fff2e8;
+    }
+
+    .search-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .search-box {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      background: white;
+      color: #333;
+      border-radius: 10px;
+      padding: 0 15px;
+      box-shadow: 0 8px 24px #9a330e24;
+    }
+
+    .location-box {
+      width: 280px;
+    }
+
+    .restaurant-box {
+      width: min(430px, 45vw);
+    }
+
+    .search-box input {
+      min-width: 0;
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: #333;
+      font-size: 12px;
+      background: transparent;
+    }
+
+    .search-box input::placeholder {
+      color: #777;
+    }
+
+    .pin {
+      color: var(--orange);
+      font-size: 22px;
+      margin-right: 10px;
+    }
+
+    .chevron {
+      color: #777;
+      font-size: 18px;
+    }
+
+    .search-icon {
+      color: #555;
+      font-size: 24px;
+    }
+
+    .hero-highlights {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 17px;
+      color: #ffe5d7;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .hero-decor {
+      position: absolute;
+      width: 190px;
+      opacity: .95;
+      pointer-events: none;
+    }
+
+    .decor-left {
+      left: -23px;
+      top: 28px;
+    }
+
+    .decor-right {
+      right: -20px;
+      top: 30px;
+    }
+
+    .service-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 42px;
+    }
+
+    .service-card {
+      position: relative;
+      min-height: 164px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      padding: 21px 19px;
+      background: #fff;
+      color: #242424;
+      border-radius: 19px;
+      box-shadow: 0 10px 25px #8d300e26;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px #8d300e35;
+    }
+
+    .service-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-kicker {
+      display: block;
+      color: #777;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .4px;
+    }
+
+    .service-card h2 {
+      margin: 4px 0 7px;
+      font-size: 20px;
+      line-height: 1.03;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .service-card p {
+      margin: 0;
+      color: var(--orange-dark);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .service-card>img {
+      position: absolute;
+      width: 52%;
+      height: 100%;
+      right: 0;
+      bottom: 0;
+      object-fit: cover;
+      clip-path: ellipse(78% 76% at 83% 78%);
+    }
+
+    .food-card>img {
+      object-position: center;
+    }
+
+    .instamart-card>img {
+      width: 49%;
+    }
+
+    .dineout-card>img {
+      width: 53%;
+    }
+
+    .round-arrow {
+      position: absolute;
+      left: 18px;
+      bottom: 15px;
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--orange);
+      font-size: 15px;
+    }
+
+    .content-section {
+      padding-top: 66px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 23px;
+    }
+
+    .section-kicker {
+      margin: 0 0 6px;
+      color: var(--orange-dark);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(21px, 2.4vw, 27px);
+      letter-spacing: -.7px;
+    }
+
+    .slider-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .slider-controls button {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: #f0f0f0;
+      color: #333;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    .category-grid {
+      display: grid;
+      gap: 18px 13px;
+    }
+
+    .food-categories {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    .category {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .category img {
+      width: 100%;
+      max-width: 112px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      transition: transform .2s;
+    }
+
+    .category:hover img,
+    .grocery-category:hover img {
+      transform: scale(1.06);
+    }
+
+    .instamart-section {
+      padding-top: 72px;
+    }
+
+    .grocery-grid {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    .grocery-category {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .grocery-category img {
+      width: 100%;
+      max-width: 125px;
+      aspect-ratio: 1 / 1.08;
+      object-fit: cover;
+      border-radius: 13px;
+      background: #f6f6f6;
+      transition: transform .2s;
+    }
+
+    .dineout-section {
+      padding-top: 75px;
+    }
+
+    .text-link {
+      color: var(--orange-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .restaurant-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 17px;
+    }
+
+    .restaurant-card {
+      overflow: hidden;
+      border: 1px solid #ededed;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 4px 14px #00000008;
+    }
+
+    .restaurant-image {
+      position: relative;
+      height: 155px;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .restaurant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .3s;
+    }
+
+    .restaurant-card:hover .restaurant-image img {
+      transform: scale(1.05);
+    }
+
+    .offer {
+      position: absolute;
+      left: 9px;
+      bottom: 9px;
+      padding: 6px 9px;
+      border-radius: 5px;
+      background: #087e55;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .restaurant-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 11px 2px 5px;
+    }
+
+    .restaurant-info h3 {
+      margin: 0 0 4px;
+      font-size: 13px;
+    }
+
+    .restaurant-info span,
+    .restaurant-card>p {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .restaurant-info strong {
+      white-space: nowrap;
+      align-self: start;
+      color: #087e55;
+      font-size: 10px;
+    }
+
+    .restaurant-card>p {
+      margin: 0 2px 7px;
+    }
+
+    .download-banner {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 260px;
+      overflow: hidden;
+      margin-top: 78px;
+      padding: 35px 8%;
+      border-radius: 20px;
+      background: #15191b;
+      color: #fff;
+    }
+
+    .download-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 460px;
+    }
+
+    .download-kicker {
+      color: #ff9a60;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .download-copy h2 {
+      margin: 10px 0 8px;
+      font-size: clamp(25px, 3vw, 34px);
+      letter-spacing: -.8px;
+    }
+
+    .download-copy p {
+      margin: 0;
+      color: #c6c6c6;
+      font-size: 12px;
+    }
+
+    .store-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .store-buttons a {
+      padding: 10px 14px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .phone-art {
+      position: relative;
+      width: 300px;
+      height: 210px;
+      display: flex;
+      justify-content: center;
+      align-items: end;
+    }
+
+    .phone {
+      position: relative;
+      width: 124px;
+      height: 205px;
+      padding: 22px 12px 12px;
+      border: 5px solid #e8e8e8;
+      border-radius: 23px 23px 0 0;
+      background: #fff7f0;
+      color: #252525;
+      text-align: center;
+      box-shadow: 0 0 0 2px #555;
+    }
+
+    .phone-notch {
+      position: absolute;
+      width: 44px;
+      height: 9px;
+      left: 50%;
+      top: 4px;
+      transform: translateX(-50%);
+      border-radius: 10px;
+      background: #252525;
+    }
+
+    .phone-logo {
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .phone-food {
+      margin: 12px 0 5px;
+      font-size: 42px;
+    }
+
+    .phone b {
+      display: block;
+      font-size: 12px;
+    }
+
+    .phone span {
+      display: block;
+      margin-top: 4px;
+      font-size: 8px;
+      color: #666;
+    }
+
+    .phone-button {
+      margin-top: 10px;
+      padding: 5px;
+      border-radius: 6px;
+      background: var(--orange);
+      color: #fff;
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .food-emoji {
+      position: absolute;
+      font-size: 34px;
+      filter: drop-shadow(0 6px 4px #0004);
+    }
+
+    .emoji-one {
+      left: 20px;
+      top: 48px;
+    }
+
+    .emoji-two {
+      right: 5px;
+      top: 12px;
+    }
+
+    .emoji-three {
+      right: 35px;
+      bottom: 25px;
+    }
+
+    .city-section {
+      padding-top: 72px;
+      padding-bottom: 75px;
+    }
+
+    .city-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 11px;
+    }
+
+    .city-grid a {
+      padding: 15px 12px;
+      border: 1px solid #e7e7e7;
+      border-radius: 9px;
+      color: #555;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .city-grid a:hover {
+      border-color: var(--orange);
+      color: var(--orange-dark);
+    }
+
+    .footer {
+      padding: 54px 0 20px;
+      background: #f1f1f6;
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.3fr repeat(4, 1fr);
+      gap: 35px;
+    }
+
+    .footer-logo {
+      font-size: 24px;
+    }
+
+    .footer-brand p {
+      margin-top: 14px;
+      color: #777;
+      font-size: 10px;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .footer-column h3 {
+      margin: 2px 0 5px;
+      font-size: 12px;
+    }
+
+    .footer-column a {
+      color: #62636a;
+      font-size: 11px;
+    }
+
+    .social-title {
+      margin-top: 14px !important;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .socials a {
+      display: grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #222;
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 17px;
+      border-top: 1px solid #d8d8de;
+      color: #777;
+      font-size: 10px;
+    }
+
+    .footer-bottom b {
+      color: var(--orange);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: min(100% - 40px, var(--max));
+      }
+
+      .navbar {
+        gap: 20px;
+      }
+
+      .nav-links {
+        gap: 18px;
+      }
+
+      .food-categories,
+      .grocery-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      .service-grid {
+        gap: 13px;
+      }
+
+      .service-card {
+        min-height: 150px;
+        padding: 17px 14px;
+      }
+
+      .service-card h2 {
+        font-size: 17px;
+      }
+
+      .restaurant-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-main {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .navbar {
+        height: 68px;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-size: 23px;
+      }
+
+      .brand-mark {
+        width: 31px;
+        height: 31px;
+      }
+
+      .menu-toggle {
+        display: block;
+        order: 3;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 62px;
+        left: 16px;
+        right: 16px;
+        padding: 17px;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 12px 25px #00000015;
+      }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav-actions {
+        margin-left: auto;
+        gap: 7px;
+      }
+
+      .app-link {
+        display: none;
+      }
+
+      .sign-in {
+        padding: 9px 14px;
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 38px 0 28px;
+      }
+
+      .hero h1 {
+        font-size: 29px;
+        letter-spacing: -.9px;
+        margin-bottom: 22px;
+      }
+
+      .eyebrow {
+        font-size: 8px;
+      }
+
+      .search-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 9px;
+      }
+
+      .search-box,
+      .location-box,
+      .restaurant-box {
+        width: 100%;
+        height: 48px;
+      }
+
+      .hero-highlights {
+        gap: 10px;
+        font-size: 8px;
+      }
+
+      .hero-decor {
+        width: 100px;
+        opacity: .45;
+        top: 5px;
+      }
+
+      .decor-left {
+        left: -35px;
+      }
+
+      .decor-right {
+        right: -35px;
+      }
+
+      .service-grid {
+        grid-template-columns: 1fr;
+        gap: 11px;
+        margin-top: 28px;
+      }
+
+      .service-card {
+        min-height: 126px;
+        padding: 16px 18px;
+        border-radius: 15px;
+      }
+
+      .service-card h2 {
+        font-size: 18px;
+      }
+
+      .service-card>img {
+        width: 44%;
+      }
+
+      .round-arrow {
+        left: 18px;
+        bottom: 12px;
+        width: 22px;
+        height: 22px;
+      }
+
+      .content-section {
+        padding-top: 48px;
+      }
+
+      .section-heading {
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .section-heading h2 {
+        font-size: 20px;
+      }
+
+      .section-kicker {
+        font-size: 8px;
+      }
+
+      .slider-controls {
+        display: none;
+      }
+
+      .food-categories,
+      .grocery-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 19px 10px;
+      }
+
+      .category {
+        font-size: 10px;
+        gap: 7px;
+      }
+
+      .category img {
+        max-width: 100%;
+      }
+
+      .grocery-category {
+        font-size: 9px;
+      }
+
+      .grocery-category img {
+        max-width: 100%;
+      }
+
+      .dineout-section {
+        padding-top: 50px;
+      }
+
+      .restaurant-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .restaurant-card {
+        padding: 6px;
+      }
+
+      .restaurant-image {
+        height: 112px;
+      }
+
+      .restaurant-info {
+        margin-top: 8px;
+      }
+
+      .restaurant-info h3 {
+        font-size: 11px;
+      }
+
+      .restaurant-info span,
+      .restaurant-card>p {
+        font-size: 9px;
+      }
+
+      .offer {
+        font-size: 7px;
+        padding: 5px 6px;
+      }
+
+      .download-banner {
+        min-height: auto;
+        margin-top: 52px;
+        padding: 27px 22px 0;
+        border-radius: 15px;
+      }
+
+      .download-copy {
+        padding-bottom: 28px;
+      }
+
+      .download-copy h2 {
+        font-size: 23px;
+      }
+
+      .download-copy p {
+        max-width: 240px;
+        font-size: 10px;
+        line-height: 1.5;
+      }
+
+      .store-buttons {
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 15px;
+      }
+
+      .store-buttons a {
+        padding: 8px 9px;
+        font-size: 9px;
+      }
+
+      .phone-art {
+        display: none;
+      }
+
+      .city-section {
+        padding-top: 50px;
+        padding-bottom: 50px;
+      }
+
+      .city-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .city-grid a {
+        padding: 12px 8px;
+        font-size: 9px;
+      }
+
+      .footer {
+        padding-top: 35px;
+      }
+
+      .footer-main {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px 18px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+
+      .footer-column {
+        gap: 10px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 9px;
+        margin-top: 28px;
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .hero h1 {
+        font-size: 25px;
+      }
+
+      .food-categories,
+      .grocery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .restaurant-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar container" aria-label="Main navigation">
+      <a class="brand" href="#" aria-label="Swiggy home">
+        <img src="assets/swiggy-mark.svg" alt="" class="brand-mark">
+        <span>swiggy</span>
+      </a>
+      <div class="nav-links">
+        <a href="#services">Swiggy Corporate</a>
+        <a href="#services">Partner with us</a>
+      </div>
+      <div class="nav-actions">
+        <a class="app-link" href="#download">Get the App <span>↗</span></a>
+        <a class="sign-in" href="#signin">Sign in</a>
+      </div>
+      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img class="hero-decor decor-left" src="assets/hero-food-left.svg" alt="">
+      <img class="hero-decor decor-right" src="assets/hero-food-right.svg" alt="">
+      <div class="container hero-content">
+        <p class="eyebrow">GOOD FOOD. GOOD MOOD.</p>
+        <h1>Order food &amp; groceries.<br>Discover best restaurants. <span>Swiggy it!</span></h1>
+        <div class="search-row">
+          <label class="search-box location-box">
+            <span class="pin">⌖</span>
+            <input type="text" placeholder="Enter your delivery location" aria-label="Delivery location">
+            <span class="chevron">⌄</span>
+          </label>
+          <label class="search-box restaurant-box">
+            <input type="search" placeholder="Search for restaurant, item or more"
+              aria-label="Search restaurants and food">
+            <span class="search-icon">⌕</span>
+          </label>
+        </div>
+        <div class="hero-highlights">
+          <span>✦ 100% food joy</span><span>✦ Fast delivery</span><span>✦ Endless choices</span>
+        </div>
+      </div>
+      <div class="container service-grid" id="services">
+        <a class="service-card food-card" href="#food">
+          <div class="service-copy"><span class="service-kicker">FROM RESTAURANTS</span>
+            <h2>FOOD<br>DELIVERY</h2>
+            <p>UPTO 60% OFF</p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=520&auto=format&fit=crop&q=85"
+            alt="Fresh restaurant meal">
+          <span class="round-arrow">↗</span>
+        </a>
+        <a class="service-card instamart-card" href="#instamart">
+          <div class="service-copy"><span class="service-kicker">INSTANT GROCERY</span>
+            <h2>INSTAMART</h2>
+            <p>UPTO 60% OFF</p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=520&auto=format&fit=crop&q=85"
+            alt="Fresh groceries and vegetables">
+          <span class="round-arrow">↗</span>
+        </a>
+        <a class="service-card dineout-card" href="#dineout">
+          <div class="service-copy"><span class="service-kicker">EAT OUT &amp; SAVE MORE</span>
+            <h2>DINEOUT</h2>
+            <p>UPTO 50% OFF</p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=520&auto=format&fit=crop&q=85"
+            alt="Restaurant dining table">
+          <span class="round-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="content-section container" id="food">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">A LITTLE SOMETHING FOR EVERY CRAVING</p>
+          <h2>Order our best food options</h2>
+        </div>
+        <div class="slider-controls"><button aria-label="Previous categories">‹</button><button
+            aria-label="Next categories">›</button></div>
+      </div>
+      <div class="category-grid food-categories">
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=300&auto=format&fit=crop&q=80"
+            alt="North Indian food"><span>North Indian</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1579751626657-72bc17010498?w=300&auto=format&fit=crop&q=80"
+            alt="Pizza"><span>Pizza</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&auto=format&fit=crop&q=80"
+            alt="Burger"><span>Burger</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&auto=format&fit=crop&q=80"
+            alt="Cake"><span>Cakes</span></a>
+        <a class="category" href="#"><img
+            src="https://tse4.mm.bing.net/th/id/OIP.NtksXdfqAKdihEE9nVuPAgHaFj?r=0&pid=Api&h=220&P=0"
+            alt="Biryani"><span>Biryani</span></a>
+        <a class="category" href="#"><img
+            src="https://tse3.mm.bing.net/th/id/OIP.I4AR0UD_YDdO9Jn1HVSCYAHaE8?r=0&pid=Api&h=220&P=0"
+            alt="Rolls"><span>Rolls</span></a>
+        <a class="category" href="#"><img
+            src="https://tse2.mm.bing.net/th/id/OIP.6UFOOce35m0P5kHJHQuqJgHaEC?r=0&pid=Api&h=220&P=0"
+            alt="Desserts"><span>Desserts</span></a>
+        <a class="category" href="#"><img
+            src="https://tse4.mm.bing.net/th/id/OIP.AydRyutVqnQM7Rc8EnqYQgHaE7?r=0&pid=Api&h=220&P=0"
+            alt="South Indian food"><span>South Indian</span></a>
+        <a class="category" href="#"><img
+            src="https://tse2.mm.bing.net/th/id/OIP.BDnItUk613dvSqySxFID5wHaEK?r=0&pid=Api&h=220&P=0"
+            alt="Paratha"><span>Paratha</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=300&auto=format&fit=crop&q=80"
+            alt="Pasta"><span>Pasta</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&auto=format&fit=crop&q=80"
+            alt="Ice cream"><span>Ice Cream</span></a>
+        <a class="category" href="#"><img
+            src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&auto=format&fit=crop&q=80"
+            alt="Pastry"><span>Pastry</span></a>
+      </div>
+    </section>
+
+    <section class="content-section container instamart-section" id="instamart">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">EVERYDAY ESSENTIALS, DELIVERED FAST</p>
+          <h2>Shop groceries on Instamart</h2>
+        </div>
+        <div class="slider-controls"><button aria-label="Previous groceries">‹</button><button
+            aria-label="Next groceries">›</button></div>
+      </div>
+      <div class="category-grid grocery-grid">
+        <a class="grocery-category" href="#"><img
+            src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=360&auto=format&fit=crop&q=80"
+            alt="Fresh vegetables"><span>Fresh Vegetables</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=360&auto=format&fit=crop&q=80"
+            alt="Fresh fruits"><span>Fresh Fruits</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=360&auto=format&fit=crop&q=80"
+            alt="Dairy products"><span>Dairy, Bread &amp; Eggs</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://tse4.mm.bing.net/th/id/OIP.1RPi8CXY2oUxQoq_I4PdwAHaHa?r=0&pid=Api&h=220&P=0"
+            alt="Rice and pulses"><span>Rice, Atta &amp; Dals</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://tse4.mm.bing.net/th/id/OIP.hcGPC30dm-5rlZWtFccO3QHaE8?r=0&pid=Api&h=220&P=0"
+            alt="Masalas"><span>Masalas &amp; Dry Fruits</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://tse3.mm.bing.net/th/id/OIP.K0xsgz98dLH7qHVVYNVfSAHaEc?r=0&pid=Api&h=220&P=0"
+            alt="Cooking oil"><span>Oils &amp; Ghee</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://tse4.mm.bing.net/th/id/OIP.JDiHKGj-GfQ8_S_xgHVzHwHaGT?r=0&pid=Api&h=220&P=0"
+            alt="Snacks"><span>Munchies</span></a>
+        <a class="grocery-category" href="#"><img
+            src="https://tse1.mm.bing.net/th/id/OIP.C6DJt9GIdmWo2gbJtrHK1QHaEW?r=0&pid=Api&h=220&P=0"
+            alt="Cold drinks"><span>Cold Drinks</span></a>
+      </div>
+    </section>
+
+    <section class="content-section container dineout-section" id="dineout">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">GREAT FOOD, GREATER EXPERIENCES</p>
+          <h2>Discover best restaurants on Dineout</h2>
+        </div><a class="text-link" href="#">Explore all ↗</a>
+      </div>
+      <div class="restaurant-grid">
+        <article class="restaurant-card">
+          <div class="restaurant-image"><img
+              src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=700&auto=format&fit=crop&q=85"
+              alt="Grilled food"><span class="offer">FLAT 20% OFF</span></div>
+          <div class="restaurant-info">
+            <div>
+              <h3>Rolls Mania</h3><span>Rolls · North Indian</span>
+            </div><strong>4.3 ★</strong>
+          </div>
+          <p>Casual dining · Great for quick bites</p>
+        </article>
+        <article class="restaurant-card">
+          <div class="restaurant-image"><img
+              src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=700&auto=format&fit=crop&q=85"
+              alt="Warm restaurant interior"><span class="offer">UP TO 30% OFF</span></div>
+          <div class="restaurant-info">
+            <div>
+              <h3>The Yellow Chilli</h3><span>North Indian · Mughlai</span>
+            </div><strong>4.5 ★</strong>
+          </div>
+          <p>Elegant ambience · Family friendly</p>
+        </article>
+        <article class="restaurant-card">
+          <div class="restaurant-image"><img
+              src="https://images.unsplash.com/photo-1547592180-85f173990554?w=700&auto=format&fit=crop&q=85"
+              alt="Indian cuisine"><span class="offer">FLAT 15% OFF</span></div>
+          <div class="restaurant-info">
+            <div>
+              <h3>Jain Shudh Bhojnalaya</h3><span>Pure Veg · Indian</span>
+            </div><strong>4.2 ★</strong>
+          </div>
+          <p>Comfort food · Pocket friendly</p>
+        </article>
+        <article class="restaurant-card">
+          <div class="restaurant-image"><img
+              src="https://tse1.mm.bing.net/th/id/OIP.CZeU7UEUtWh1gp1lB7HtEQHaEJ?r=0&pid=Api&h=220&P=0"
+              alt="Dessert and drink"><span class="offer">UP TO 20% OFF</span></div>
+          <div class="restaurant-info">
+            <div>
+              <h3>Giani's</h3><span>Ice Cream · Desserts</span>
+            </div><strong>4.1 ★</strong>
+          </div>
+          <p>Sweet treats · Perfect for every day</p>
+        </article>
+      </div>
+    </section>
+
+
+    </div>
+
+    </script>
+</body>
+
+</html>
